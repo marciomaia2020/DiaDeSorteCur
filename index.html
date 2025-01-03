@@ -2,6 +2,11 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+	    <!----======== Font Awesome 5 JAVASCRIPT  ENTRE NO SITE E PEGUE O CÓDIGO (afb02bf9ac)======== -->
+		<script src="https://kit.fontawesome.com/afb02bf9ac.js" crossorigin="anonymous"></script>
+		<!--Márciofernando.maia@yahoo.com.br-->
+		<script src="https://kit.fontawesome.com/2fa2c650ed.js" crossorigin="anonymous"></script>
+
     <title>Resultados Dia de Sorte</title>
     <style>
         body {
@@ -30,15 +35,16 @@
         .result-info {
             margin: 20px 0;
             padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            width: 100%;
+           /*background-color: #f8f9fa;*/
+           /* border-radius: 8px;*/
+            width: 90%;
+			align-items: center;
         }
 
         .column {
             display: grid;
             grid-template-columns: repeat(10, 1fr);
-            gap: 10px;
+            gap: 35px;
             flex-direction: column;
             align-items: center;
         }
@@ -69,19 +75,46 @@
             display: grid;
             grid-template-columns: repeat(10, 1fr);
             gap: 5px;
-            margin: 15px 0;
+            /*margin: 15px 0;*/
+			margin-top: 20px;
         }
-
+		/*
         .number-cell {
-            display: flex;
+            /*display: grid;
+			/*grid-template-columns: repeat(8, 1fr);
+			/*gap 2px;
+			margin 15px 0;
             align-items: center;
             justify-content: center;
-            background-color: #cccccc;
+			background-color: white;
             color: #333;
             padding: 5px;
             border-radius: 100%;
-            font-weight: bold;
-        }
+			border: 1px solid #ccc;
+            font-weight: normal;
+			width: 40px;
+			height: 40px;
+			
+        }*/
+		.number-cell {
+			display: flex; /* Use flexbox para alinhar o conteúdo */
+			align-items: center;
+			justify-content: center;
+			background-color: white;
+			color: #333;
+			padding: 0; /* Remove o espaçamento interno */
+			border-radius: 50%; /* Garante que o elemento seja perfeitamente redondo */
+			border: 1px solid #ccc;
+			font-weight: normal;
+			width: 40px; /* Reduz o tamanho do círculo */
+			height: 40px; /* Reduz o tamanho do círculo */
+			margin: 0; /* Reduz o espaço ao redor */
+			/*margin-right: 10px;*/
+			/*margin-left: 10px;*/
+			
+
+		}
+
 
         .number-cell.highlight {
             background-color: #209869;
@@ -115,6 +148,12 @@
         .loading.active {
             display: block;
         }
+		.outros{
+            display: inline;
+            background-color: #e6f4ed;
+            align-content: space-between;
+            background-color: yellow;
+         }
     </style>
 </head>
 <body>
@@ -135,6 +174,23 @@
             <div id="numbersGrid" class="numbers-grid"></div> <!-- Números de 1 a 31 -->
         </div>
     </div>
+	
+	    <p>HISTÓRICO DE RESULTADOS...</p>
+
+    <div class="outros"> 
+        <ul>
+            <li><a href="./HistoricoDeResultados/index.html" target="_blank"><i class="fa-solid fa-arrow-right"></i></a> Histórico de Resultados - Vertical</li>
+            <li><a href="./HistoricoDeResultados/index1.html"target="_blank"><i class="fa-solid fa-arrow-right"></i></a> Histórico de Resultados - Horizontal</li>
+            <li><a href="./HistoricoDeResultados/index1a.html"target="_blank"><i class="fa-solid fa-arrow-right"></i></a> Histórico de Resultados - Quadrantes com estatísticas</li>
+            <li><a href="./HistoricoDeResultados/index2.html"target="_blank"><i class="fa-solid fa-arrow-right"></i></a> Gerador de Combinações</li>
+            <li><a href="./HistoricoDeResultados/index3.html"target="_blank"><i class="fa-solid fa-arrow-right"></i></a> Resultados de todos os sorteios da Mega Sena</li>
+            <li><a href="./HistoricoDeResultados/index5.html"target="_blank"><i class="fa-solid fa-arrow-right"></i></a> Resultados de todos os sorteios da Mega Sena - com filtros</li>
+            <li><a href="./HistoricoDeResultados/index4.html"target="_blank"><i class="fa-solid fa-arrow-right"></i></a> Resultados apenas dos sorteios da Mega da Virada</li>
+
+        </ul>
+    </div>
+
+	
 
     <script>
         // Função para buscar o resultado de um concurso específico
