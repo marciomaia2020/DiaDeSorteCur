@@ -2,8 +2,9 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Histórico de Resultados Mega-Sena</title>
+    <title>Histórico de Resultados Dia de Sorte - Visualização e Estatísticas</title>
     <style>
+    /* Todos os estilos anteriores mantidos */
     body {
         font-family: Arial, sans-serif;
         background-color: #f0f0f0;
@@ -18,49 +19,120 @@
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        max-width: 1200px;
+        max-width: 1000px;
         width: 100%;
         text-align: center;
     }
 
     .result {
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         display: inline-block;
         width: 100%;
     }
 
     .result h3 {
-        margin-bottom: 10px;
-        font-size: 14px;
+        margin-bottom: 15px;
+        font-size: 16px;
         text-align: center;
     }
 
-    .grid {
+    .quadrant-grid {
         display: grid;
-        grid-template-columns: repeat(10, 1fr); /* 10 colunas por linha */
-        gap: 0px; /* Remove o espaço entre os números */
-        justify-items: center;
-        grid-template-rows: repeat(6, auto); /* 6 linhas de números */
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+        gap: 5px;
+        margin: 0 auto;
+        max-width: 500px;
+        background-color: #ffffff;
+        padding: 15px;
     }
 
     .number {
-        width: 30px;
-        height: 30px;
+        aspect-ratio: 1;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid #ccc;
         border-radius: 50%;
-        background-color: white;
-        font-weight: bold;
+        font-weight: normal;
         font-size: 14px;
-        margin: 0;
+        background-color: #d4f3e3;
+        color: #333;
+        border: none;
+        width: 100%;
+        height: 100%;
+        min-width: 35px;
+        min-height: 35px;
+        position: relative;
     }
 
+    .quadrant1 { background-color: #d1e0ff; }
+    .quadrant2 { background-color: #ffcccc; }
+    .quadrant3 { background-color: #d1ffd1; }
+    .quadrant4 { background-color: #ffddcc; }
+    .quadrant5 { background-color: #ddccff; }
+    .quadrant6 { background-color: #ddddcc; }
+    .quadrant7 { background-color: #ccffff; }
+    .quadrant8 { background-color: #ffccff; }
+    .quadrant9 { background-color: #ccffe0; }
+    .quadrant10 { background-color: #e0ccff; }
+    .quadrant11 { background-color: #e0ffcc; }
+    .quadrant12 { background-color: #e0e0cc; }
+    .quadrant13 { background-color: #cce0e0; }
+    .quadrant14 { background-color: #ffcce0; }
+    .quadrant15 { background-color: #ccffe0; }
+
     .highlight {
-        background-color: #930089;
+        background-color: #0d904f !important;
         color: white;
-        border-color: #930089;
+    }
+
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        text-align: left;
+    }
+
+    .stats-box {
+        background-color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .stats-box h3 {
+        color: #0d904f;
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .quadrant-stat {
+        padding: 8px;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 0.6em;
+        gap: 10px;
+    }
+
+    .number-stat {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 0;
+        border-bottom: 1px solid #eee;
     }
 
     .loading {
@@ -78,184 +150,245 @@
     }
 
     button {
-        padding: 8px 16px;
-        background-color: #930089;
+        padding: 10px 20px;
+        background-color: #0d904f;
         color: white;
         border: none;
         border-radius: 4px;
         cursor: pointer;
+        margin-bottom: 20px;
+        font-size: 16px;
     }
 
     button:hover {
-        background-color: #6b0063;
+        background-color: #0a7340;
+    }
+
+    button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
     }
 
     .game-container {
-        border: 1px solid #002;
-        padding: 10px;
+        border: 1px solid #ddd;
+        padding: 15px;
         border-radius: 8px;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         background-color: #fff;
     }
 
-    /* Ajuste para exibir dois resultados por coluna */
-    .column {
-        display: flex;
-        display:inline-block;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px; /* Espaçamento entre os resultados */
+    span {
+        font-weight: normal;
+        font-size: 18px;
     }
-    .feedback {
-        margin-top: 20px;
-        font-size: 16px;
-        color: #333;
-        font-weight: bold;
+
+    #progressBar {
+        width: 100%;
+        height: 20px;
+        margin-bottom: 10px;
     }
     .centralizado {
             text-align: center;
             font-size: 12px;
             color: blue;
         }
-    
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Histórico de Resultados Mega-Sena</h2>
+        <h2>Histórico de Resultados Dia de Sorte</h2>
 
         <div class="centralizado">
-            <p>Histórico de Resultados - <b>Horizontal</b></p>
+            <p>Quadrantes <b><u>com estatísticas</u></b></p>
         </div>
-
-
-
+         
         <button id="loadResults">Carregar Resultados</button>
 
-
-
         <div>
-            <progress id="progressBar" max="100" value="0" style="width: 100%;"></progress>
+            <progress id="progressBar" max="100" value="0"></progress>
             <span id="progressLabel">0%</span>
+        </div>
+
+        <div id="statsSection" class="stats-container">
+            <!-- Estatísticas serão inseridas aqui -->
         </div>
         
         <div id="loading" class="loading">Carregando resultados...</div>
         <div id="error" class="error"></div>
         <div id="results"></div>
-        <div id="feedback" class="feedback"></div> <!-- Novo elemento para feedback -->
+        <div id="feedback" class="feedback"></div>
     </div>
 
     <script>
-async function fetchResults() {
-    const resultsContainer = document.getElementById('results');
-    const loading = document.getElementById('loading');
-    const error = document.getElementById('error');
-    const progressBar = document.getElementById('progressBar');
-    const progressLabel = document.getElementById('progressLabel');
-    const feedback = document.getElementById('feedback'); // Elemento para feedback
-    const estimatedTotal = 3000; // Estimativa do número total de concursos
+    let currentConcurso = 1;
+let isLoading = false;
+let maxConcurso = 2600; // Valor aproximado, será atualizado dinamicamente
+let globalStats = {
+    quadrants: Array(15).fill(0),
+    numbers: Array(31).fill(0), // Alterado para 31 para acomodar os números do Dia de Sorte
+    totalGames: 0,
+    sequences: 0,
+    oddEven: { odd: 0, even: 0 },
+    sum: 0,
+    totalNumbers: 0
+};
 
-    // Resetando estado inicial
-    loading.classList.add('active');
-    error.textContent = '';
-    resultsContainer.innerHTML = '';
-    progressBar.value = 0;
-    progressLabel.textContent = '0%';
-    feedback.textContent = ''; // Limpa o feedback anterior
+// Função para retornar a classe do quadrante para o número
+function getQuadrantClass(number) {
+    const row = Math.floor((number - 1) / 10);
+    const col = Math.floor((number - 1) % 10);
+    const quadrantRow = Math.floor(row / 2);
+    const quadrantCol = Math.floor(col / 2);
+    const quadrantNumber = quadrantRow * 5 + quadrantCol + 1;
+    return `quadrant${quadrantNumber}`;
+}
 
-    const baseUrl = 'https://loteriascaixa-api.herokuapp.com/api/megasena';
-    let concurso = 1;
-    let keepFetching = true;
-    let lastConcurso = null; // Para armazenar o último concurso carregado
+// Função para determinar qual quadrante o número pertence
+function getQuadrantForNumber(number) {
+    const row = Math.floor((number - 1) / 10);
+    const col = Math.floor((number - 1) % 10);
+    const quadrantRow = Math.floor(row / 2);
+    const quadrantCol = Math.floor(col / 2);
+    return quadrantRow * 5 + quadrantCol + 1;
+}
 
-    try {
-        while (keepFetching) {
-            const url = `${baseUrl}/${concurso}`;
-            const response = await fetch(url);
-
-            if (!response.ok) {
-                keepFetching = false;
-                break;
-            }
-
-            const data = await response.json();
-            const dezenas = data.dezenas.map(Number);
-
-            // Armazena o último concurso
-            lastConcurso = data.concurso;
-
-            // Criação do elemento de resultado
-            const resultDiv = document.createElement('div');
-            resultDiv.className = 'result';
-
-            const title = document.createElement('h3');
-            title.textContent = `Concurso: ${data.concurso} - Data: ${data.data}`;
-            resultDiv.appendChild(title);
-
-            const gameContainer = document.createElement('div');
-            gameContainer.className = 'game-container';
-
-            const column = document.createElement('div');
-            column.className = 'column';
-
-            const grid1 = document.createElement('div');
-            grid1.className = 'grid';
-
-            for (let i = 1; i <= 30; i++) {
-                const numberDiv = document.createElement('div');
-                numberDiv.className = 'number';
-                numberDiv.textContent = i.toString().padStart(2, '0');
-
-                if (dezenas.includes(i)) {
-                    numberDiv.classList.add('highlight');
-                }
-
-                grid1.appendChild(numberDiv);
-            }
-
-            const grid2 = document.createElement('div');
-            grid2.className = 'grid';
-
-            for (let i = 31; i <= 60; i++) {
-                const numberDiv = document.createElement('div');
-                numberDiv.className = 'number';
-                numberDiv.textContent = i.toString().padStart(2, '0');
-
-                if (dezenas.includes(i)) {
-                    numberDiv.classList.add('highlight');
-                }
-
-                grid2.appendChild(numberDiv);
-            }
-
-            column.appendChild(grid1);
-            column.appendChild(grid2);
-            gameContainer.appendChild(column);
-            resultDiv.appendChild(gameContainer);
-            resultsContainer.appendChild(resultDiv);
-
-            // Atualiza o progresso
-            const progress = Math.min((concurso / estimatedTotal) * 100, 100);
-            progressBar.value = progress;
-            progressLabel.textContent = `${Math.round(progress)}%`;
-
-            concurso++;
+// Atualiza as estatísticas com base nos números sorteados
+function updateStats(dezenas) {
+    globalStats.totalGames++;
+    
+    dezenas.forEach(num => {
+        const quadrant = getQuadrantForNumber(num);
+        globalStats.quadrants[quadrant - 1]++;
+        globalStats.numbers[num - 1]++;
+        
+        if (num % 2 === 0) {
+            globalStats.oddEven.even++;
+        } else {
+            globalStats.oddEven.odd++;
         }
+    });
 
-        // Exibe o feedback do último concurso
-        if (lastConcurso !== null) {
-            feedback.textContent = `Carregamento concluído! Último concurso carregado: ${lastConcurso}.`;
+    globalStats.sum += dezenas.reduce((a, b) => a + b, 0);
+    globalStats.totalNumbers += dezenas.length;
+
+    const sortedDezenas = [...dezenas].sort((a, b) => a - b);
+    for (let i = 0; i < sortedDezenas.length - 1; i++) {
+        if (sortedDezenas[i + 1] - sortedDezenas[i] === 1) {
+            globalStats.sequences++;
+            break;
+        }
+    }
+
+    renderStats();
+}
+
+// Função para renderizar as estatísticas na página
+function renderStats() {
+    const statsSection = document.getElementById('statsSection');
+    statsSection.innerHTML = '';
+
+    // Estatísticas por quadrante
+    const quadrantStats = document.createElement('div');
+    quadrantStats.className = 'stats-box';
+    quadrantStats.innerHTML = `
+        <h3>Frequência por Quadrante</h3>
+        <div class="stats-grid">
+            ${globalStats.quadrants.map((count, idx) => `
+                <div class="quadrant-stat quadrant${idx + 1}">
+                    Q${idx + 1}<br>
+                    ${count} (${((count / globalStats.totalNumbers) * 100).toFixed(1)}%)
+                </div>
+            `).join('')}
+        </div>
+    `;
+
+    // Estatísticas dos números sorteados
+    const numberStats = document.createElement('div');
+    numberStats.className = 'stats-box';
+    const topNumbers = globalStats.numbers
+        .map((count, idx) => ({number: idx + 1, count}))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 10);
+    
+    numberStats.innerHTML = `
+        <h3>Top 10 Números Mais Sorteados</h3>
+        ${topNumbers.map(({number, count}) => `
+            <div class="number-stat">
+                <span>Número ${number}</span>
+                <span>${count} vezes (${((count / globalStats.totalGames) * 100).toFixed(1)}%)</span>
+            </div>
+        `).join('')}
+    `;
+
+    // Estatísticas gerais
+    const generalStats = document.createElement('div');
+    generalStats.className = 'stats-box';
+    generalStats.innerHTML = `
+        <h3>Estatísticas Gerais</h3>
+        <div class="number-stat">
+            <span>Total de Jogos:</span>
+            <span>${globalStats.totalGames}</span>
+        </div>
+        <div class="number-stat">
+            <span>Média da Soma:</span>
+            <span>${(globalStats.sum / globalStats.totalGames).toFixed(1)}</span>
+        </div>
+        <div class="number-stat">
+            <span>Números Pares:</span>
+            <span>${((globalStats.oddEven.even / globalStats.totalNumbers) * 100).toFixed(1)}%</span>
+        </div>
+        <div class="number-stat">
+            <span>Números Ímpares:</span>
+            <span>${((globalStats.oddEven.odd / globalStats.totalNumbers) * 100).toFixed(1)}%</span>
+        </div>
+        <div class="number-stat">
+            <span>Jogos com Sequências:</span>
+            <span>${((globalStats.sequences / globalStats.totalGames) * 100).toFixed(1)}%</span>
+        </div>
+    `;
+
+    statsSection.appendChild(quadrantStats);
+    statsSection.appendChild(numberStats);
+    statsSection.appendChild(generalStats);
+}
+
+// Função para carregar resultados e atualizar a visualização
+async function loadResults() {
+    if (isLoading || currentConcurso > maxConcurso) return;
+
+    isLoading = true;
+    document.getElementById('loading').classList.add('active');
+    document.getElementById('loadResults').disabled = true;
+    
+    try {
+        const response = await fetch(`https://loteriascaixa-api.herokuapp.com/api/diadesorte/${currentConcurso}`);
+        const data = await response.json();
+
+        if (data && Array.isArray(data.dezenas)) {
+            updateStats(data.dezenas);
+        } else {
+            throw new Error('Formato de dados inválido.');
         }
     } catch (err) {
-        error.textContent = 'Erro ao buscar os resultados. Tente novamente mais tarde.';
-        console.error(err);
+        document.getElementById('error').textContent = `Erro ao carregar dados do concurso ${currentConcurso}: ${err.message}`;
     } finally {
-        loading.classList.remove('active');
+        currentConcurso++;
+        const progress = Math.round((currentConcurso / maxConcurso) * 100);
+        document.getElementById('progressBar').value = progress;
+        document.getElementById('progressLabel').textContent = `${progress}%`;
+
+        if (currentConcurso <= maxConcurso) {
+            loadResults();
+        } else {
+            isLoading = false;
+            document.getElementById('loading').classList.remove('active');
+            document.getElementById('loadResults').disabled = false;
+        }
     }
 }
 
-// Adiciona o evento ao botão
-document.getElementById('loadResults').addEventListener('click', fetchResults);
+// Ação de carregamento ao clicar no botão
+document.getElementById('loadResults').addEventListener('click', loadResults);
 
     </script>
 </body>

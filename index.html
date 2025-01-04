@@ -1,159 +1,182 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-	    <!----======== Font Awesome 5 JAVASCRIPT  ENTRE NO SITE E PEGUE O CÓDIGO (afb02bf9ac)======== -->
-		<script src="https://kit.fontawesome.com/afb02bf9ac.js" crossorigin="anonymous"></script>
-		<!--Márciofernando.maia@yahoo.com.br-->
-		<script src="https://kit.fontawesome.com/2fa2c650ed.js" crossorigin="anonymous"></script>
-
+    <script src="https://kit.fontawesome.com/afb02bf9ac.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/2fa2c650ed.js" crossorigin="anonymous"></script>
     <title>Resultados Dia de Sorte</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f0f0f0;
-            padding: 20px;
-        }
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
 
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-            width: 100%;
-        }
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto; /* Centraliza horizontalmente */
+    text-align: center; /* Centraliza o conteúdo interno */
+}
 
-        .input-section {
-            margin-bottom: 20px;
-            text-align: center;
-        }
+.input-section {
+    margin-bottom: 20px;
+    text-align: center;
+}
 
-        .result-info {
-            margin: 20px 0;
-            padding: 15px;
-           /*background-color: #f8f9fa;*/
-           /* border-radius: 8px;*/
-            width: 90%;
-			align-items: center;
-        }
+.result-info {
+    margin: 20px 0;
+    padding: 15px;
+    width: 90%;
+    align-items: center;
+}
 
-        .column {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 35px;
-            flex-direction: column;
-            align-items: center;
-        }
+.column {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 35px;
+    flex-direction: column;
+    align-items: center;
+}
 
-        .column-header {
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .cell {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background-color: #cccccc;
-            color: #333;
-            margin: 2px 0;
-        }
+.column-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
 
-        .cell.highlight {
-            background-color: #209869;
-            color: white;
-            font-weight: bold;
-        }
+.cell {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #cccccc;
+    color: #333;
+    margin: 2px 0;
+}
 
-        .numbers-grid {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 5px;
-            /*margin: 15px 0;*/
-			margin-top: 20px;
-        }
-		/*
-        .number-cell {
-            /*display: grid;
-			/*grid-template-columns: repeat(8, 1fr);
-			/*gap 2px;
-			margin 15px 0;
-            align-items: center;
-            justify-content: center;
-			background-color: white;
-            color: #333;
-            padding: 5px;
-            border-radius: 100%;
-			border: 1px solid #ccc;
-            font-weight: normal;
-			width: 40px;
-			height: 40px;
-			
-        }*/
-		.number-cell {
-			display: flex; /* Use flexbox para alinhar o conteúdo */
-			align-items: center;
-			justify-content: center;
-			background-color: white;
-			color: #333;
-			padding: 0; /* Remove o espaçamento interno */
-			border-radius: 50%; /* Garante que o elemento seja perfeitamente redondo */
-			border: 1px solid #ccc;
-			font-weight: normal;
-			width: 40px; /* Reduz o tamanho do círculo */
-			height: 40px; /* Reduz o tamanho do círculo */
-			margin: 0; /* Reduz o espaço ao redor */
-			/*margin-right: 10px;*/
-			/*margin-left: 10px;*/
-			
+.cell.highlight {
+    background-color: #209869;
+    color: white;
+    font-weight: bold;
+}
 
-		}
+.numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+    margin-top: 20px;
+}
 
+.number-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: #333;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    font-weight: normal;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+}
 
-        .number-cell.highlight {
-            background-color: #209869;
-            color: white;
-        }
+.number-cell.highlight {
+    background-color: #209869;
+    color: white;
+}
 
-        button {
-            padding: 8px 16px;
-            background-color: #209869;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin: 10px;
-        }
+button {
+    padding: 8px 16px;
+    background-color: #209869;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+}
 
-        button:hover {
-            background-color: #1a7d57;
-        }
+button:hover {
+    background-color: #1a7d57;
+}
 
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
 
-        .loading {
-            display: none;
-            margin: 20px 0;
-        }
+.loading {
+    display: none;
+    margin: 20px 0;
+}
 
-        .loading.active {
-            display: block;
-        }
-		.outros{
-            display: inline;
-            background-color: #e6f4ed;
-            align-content: space-between;
-            background-color: yellow;
-         }
+.loading.active {
+    display: block;
+}
+
+.outros {
+    display: inline;
+    background-color: yellow;
+}
+
+/* Ajustes para telas pequenas */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 10px;
+        box-shadow: none;
+    }
+
+    .result-info {
+        padding: 10px;
+    }
+
+    .column {
+        grid-template-columns: repeat(5, 1fr); /* Ajusta o número de colunas */
+        gap: 15px;
+    }
+
+    .numbers-grid {
+        grid-template-columns: repeat(5, 1fr); /* Ajusta o número de colunas */
+        gap: 10px;
+    }
+
+    .cell,
+    .number-cell {
+        width: 30px; /* Reduz o tamanho das células */
+        height: 30px; /* Reduz o tamanho das células */
+        font-size: 12px; /* Diminui o tamanho da fonte */
+    }
+
+    button {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .input-section label,
+    .input-section input {
+        font-size: 14px;
+    }
+
+    .outros ul li {
+        font-size: 14px;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -279,4 +302,4 @@
         };
     </script>
 </body>
-</html>
+</html> 

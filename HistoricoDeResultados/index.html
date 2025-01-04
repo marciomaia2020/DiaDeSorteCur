@@ -1,445 +1,249 @@
-<!-- <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Histórico de Resultados Mega-Sena</title>
-    <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .container {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        max-width: 1200px;
-        width: 100%;
-        text-align: center;
-    }
-
-    .result {
-        margin-bottom: 20px;
-        display: inline-block; /* Permite que os resultados fiquem lado a lado */
-        width: 45%; /* Ajusta para duas colunas */
-        vertical-align: top;
-    }
-
-    .result h3 {
-        margin-bottom: 10px;
-        font-size: 14px; /* Reduz o tamanho do título */
-        text-align: center;
-    }
-
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr); /* Ajusta para 6 colunas */
-        gap: 3px;
-    }
-
-    .number {
-        width: 30px; /* Reduz o tamanho da bola */
-        height: 30px; /* Reduz o tamanho da bola */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #ccc;
-        border-radius: 50%;
-        background-color: white;
-        font-weight: bold;
-        font-size: 12px; /* Reduz o tamanho da fonte */
-    }
-
-    .highlight {
-        background-color: #930089;
-        color: white;
-        border-color: #930089;
-    }
-
-    .loading {
-        display: none;
-        margin: 20px 0;
-    }
-
-    .loading.active {
-        display: block;
-    }
-
-    .error {
-        color: red;
-        margin-top: 10px;
-    }
-
-    button {
-        padding: 8px 16px;
-        background-color: #930089;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #6b0063;
-    }
-
-    .game-container {
-        border: 1px solid #002; /* Borda fina */
-        padding: 10px; /* Espaçamento interno */
-        border-radius: 8px; /* Bordas arredondadas */
-        margin-bottom: 10px; /* Espaçamento entre jogos */
-        background-color: #fff; /* Cor de fundo branca */
-    }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Histórico de Resultados Mega-Sena</h2>
-        <button id="loadResults">Carregar Resultados</button>
-        <div id="loading" class="loading">Carregando resultados...</div>
-        <div id="error" class="error"></div>
-        <div id="results"></div>
-    </div>
-
-    <script>
-    async function fetchResults() {
-        const resultsContainer = document.getElementById('results');
-        const loading = document.getElementById('loading');
-        const error = document.getElementById('error');
-
-        loading.classList.add('active');
-        error.textContent = '';
-        resultsContainer.innerHTML = '';
-
-        const baseUrl = 'https://loteriascaixa-api.herokuapp.com/api/megasena'; // Atualizado para Mega-Sena
-        let concurso = 1;
-        let keepFetching = true;
-
-        try {
-            while (keepFetching) {
-                const url = `${baseUrl}/${concurso}`;
-                const response = await fetch(url);
-
-                if (!response.ok) {
-                    keepFetching = false;
-                    break;
-                }
-
-                const data = await response.json();
-                const dezenas = data.dezenas.map(Number); // Garante que todas as dezenas sejam números
-
-                // Cria um elemento de resultado
-                const resultDiv = document.createElement('div');
-                resultDiv.className = 'result';
-
-                const title = document.createElement('h3');
-                title.textContent = `Concurso: ${data.concurso} - Data: ${data.data}`;
-                resultDiv.appendChild(title);
-
-                // Cria um contêiner para o jogo
-                const gameContainer = document.createElement('div');
-                gameContainer.className = 'game-container';
-
-                // Cria a grade
-                const grid = document.createElement('div');
-                grid.className = 'grid';
-
-                for (let i = 1; i <= 60; i++) {
-                    const numberDiv = document.createElement('div');
-                    numberDiv.className = 'number';
-                    numberDiv.textContent = i.toString().padStart(2, '0');
-
-                    if (dezenas.includes(i)) {
-                        numberDiv.classList.add('highlight');
-                    }
-
-                    grid.appendChild(numberDiv);
-
-                    // Exibir dois resultados por coluna
-                    if (i % 2 === 0) {
-                        grid.appendChild(document.createElement('br'));
-                    }
-                }
-
-                // Adiciona a grade ao contêiner do jogo
-                gameContainer.appendChild(grid);
-
-                // Adiciona o contêiner do jogo ao resultado
-                resultDiv.appendChild(gameContainer);
-                resultsContainer.appendChild(resultDiv);
-
-                concurso++;
-            }
-        } catch (err) {
-            error.textContent = 'Erro ao buscar os resultados. Tente novamente mais tarde.';
-            console.error(err);
-        } finally {
-            loading.classList.remove('active');
-        }
-    }
-
-    document.getElementById('loadResults').addEventListener('click', fetchResults);
-    </script>
-</body>
-</html> -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Histórico de Resultados Mega-Sena</title>
+    <title>Histórico de Resultados Dia de Sorte</title>
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
 
-    /* Container fixo */
-    .container-fixed {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        max-width: 1200px;
-        width: 100%;
-        height: 90px;
-        text-align: center;
-        position: fixed;
-        top: 10px; /* Distância do topo */
-        left: 50%;
-        transform: translateX(-50%); /* Centraliza o container */
-        z-index: 1000; /* Garante que o container ficará acima de outros conteúdos */
-    }
-
-    /* Ajuste do conteúdo abaixo do container fixo */
-    .container-placeholder {
-        margin-top: 150px; /* Distância para dar espaço ao container fixo */
-        width: 100%;
-        text-align: center;
-    }
-
-    .result {
-        margin-bottom: 20px;
-        display: inline-block; /* Permite que os resultados fiquem lado a lado */
-        width: 45%; /* Ajusta para duas colunas */
-        vertical-align: top;
-    }
-
-    .result h3 {
-        margin-bottom: 10px;
-        font-size: 14px; /* Reduz o tamanho do título */
-        text-align: center;
-    }
-
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr); /* Ajusta para 6 colunas */
-        gap: 3px;
-    }
-
-    .number {
-        width: 30px; /* Reduz o tamanho da bola */
-        height: 30px; /* Reduz o tamanho da bola */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #ccc;
-        border-radius: 50%;
-        background-color: white;
-        font-weight: bold;
-        font-size: 12px; /* Reduz o tamanho da fonte */
-    }
-
-    .highlight {
-        background-color: #930089;
-        color: white;
-        border-color: #930089;
-    }
-    .error {
-        color: red;
-        margin-top: 10px;
-    }
-
-    button {
-        padding: 8px 16px;
-        background-color: #930089;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #6b0063;
-    }
-
-    .game-container {
-        border: 1px solid #002; /* Borda fina */
-        padding: 10px; /* Espaçamento interno */
-        border-radius: 8px; /* Bordas arredondadas */
-        margin-bottom: 10px; /* Espaçamento entre jogos */
-        background-color: #fff; /* Cor de fundo branca */
-    }
-
-    /* Estilo de feedback de carregamento */
-    .loading-text {
-        font-size: 16px;
-        font-weight: bold;
-        color: #930089;
-    }
-
-    /* Estilo para o progresso */
-    .progress-text {
-        font-size: 14px;
-        color: #333;
-        padding: 10px;
-    }
-    .loading {
-        display: none;
-        margin: 1px 0;
-    }
-
-    .loading.active {
-        display: block;
-        padding: 10px;
-    }
-
-    /* Estilo de mensagem de conclusão */
-    .completion-message {
-        font-size: 16px;
-        font-weight: bold;
-        color: green;
-        margin-top: 20px;
-    }
-    .centralizado{
+        /* Cabeçalho fixo no topo da página */
+        .container-fixed {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            width: 100%;
+            height: auto;
             text-align: center;
-            font-size: 12px;
-            color: blue; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        /* Espaçamento abaixo do cabeçalho fixo */
+        .container-placeholder {
+            margin-top: 120px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Container de cada resultado */
+        .result {
+            margin-bottom: 20px;
+            display: inline-block;
+            width: 90%;
+            vertical-align: top;
+            border: 1px solid #ccc; /* Borda ao redor dos resultados */
             padding: 10px;
+            border-radius: 8px;
+            background-color: #fff; /* Fundo branco para os resultados */
+        }
+
+        /* Título de cada resultado */
+        .result h3 {
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Grade de números */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr); /* Grade com 7 colunas */
+            gap: 5px; /* Espaço entre os números */
+        }
+
+        /* Cada número na grade */
+        .number {
+            width: 22px; /* Ajuste do tamanho para telas pequenas */
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #000; /* Borda ao redor de cada número */
+            border-radius: 50%;
+            background-color: white;
+            font-weight: bold;
+            font-size: 9px; /* Ajuste do tamanho da fonte */
+        }
+
+        /* Destaque para os números sorteados */
+        .highlight {
+            background-color: #930089; /* Fundo roxo para números sorteados */
+            color: white;
+            border-color: #930089; /* Altera a borda para combinar com o fundo */
+        }
+
+        /* Estilo do botão */
+        button {
+            padding: 8px 16px;
+            background-color: #930089;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #6b0063;
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 768px) {
+            .container-fixed {
+                padding: 10px;
+                height: auto;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            .result {
+                width: 95%; /* Ocupa quase toda a largura */
+                margin-bottom: 15px;
+            }
+
+            .grid {
+                grid-template-columns: repeat(5, 1fr); /* Reduz para 5 colunas em telas menores */
+                gap: 4px;
+            }
+
+            .number {
+                width: 20px; /* Reduz ainda mais o tamanho das bolas */
+                height: 20px;
+                font-size: 8px; /* Tamanho da fonte menor */
+            }
+
+            button {
+                font-size: 12px; /* Botão menor */
+                padding: 6px 12px;
+            }
+        }
+
+        /* Responsividade para telas muito pequenas (smartphones antigos) */
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: repeat(4, 1fr); /* Apenas 4 colunas em telas muito pequenas */
+            }
+
+            .number {
+                width: 18px;
+                height: 18px;
+                font-size: 7px;
+            }
+
+            h2 {
+                font-size: 16px;
+            }
+
+            button {
+                font-size: 10px;
+                padding: 5px 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Container fixo -->
+    <!-- Cabeçalho fixo com título e botão -->
     <div class="container-fixed">
-        <h2>Histórico de Resultados Mega-Sena</h2>
-        <div class="centralizado">
-            <p>O que eu faço? Trago - Nº e Data dos concursos, destaco os numeros sorteados no universo das 60 dezenas</p>
-        </div>
-        <button id="loadResults">Carregar Resultados</button><br />
-
-   
-
-        <div id="loading" class="loading">
-            <div class="loading-text">Carregando resultados, por favor aguarde...</div>
-            <div id="progress" class="progress-text"></div>
-        </div>
-
-        <div id="error" class="error"></div><br />
-        <div id="completion" class="completion-message"></div> <!-- Aqui aparece a mensagem de conclusão -->
+        <h2>Histórico de Resultados Dia de Sorte</h2>
+        <button id="loadResults">Carregar Resultados</button>
     </div>
 
-    <!-- Placeholder para o conteúdo abaixo -->
-    <div class="container-placeholder"><br /><br /><br />
+    <!-- Espaço reservado para os resultados -->
+    <div class="container-placeholder">
         <div id="results"></div>
     </div>
 
     <script>
-    async function fetchResults() {
-        const resultsContainer = document.getElementById('results');
-        const loading = document.getElementById('loading');
-        const error = document.getElementById('error');
-        const progressText = document.getElementById('progress');
-        const completionMessage = document.getElementById('completion');
+        /**
+         * Função que busca e exibe os resultados do Dia de Sorte.
+         */
+        async function fetchResults() {
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = ''; // Limpa os resultados anteriores
 
-        loading.classList.add('active');
-        error.textContent = '';
-        resultsContainer.innerHTML = '';
-        completionMessage.textContent = ''; // Limpar qualquer mensagem de conclusão anterior
+            const baseUrl = 'https://loteriascaixa-api.herokuapp.com/api/diadesorte';
+            let concurso = 1;
+            let keepFetching = true;
 
-        const baseUrl = 'https://loteriascaixa-api.herokuapp.com/api/megasena'; // Atualizado para Mega-Sena
-        let concurso = 1;
-        let keepFetching = true;
+            try {
+                while (keepFetching) {
+                    // Monta a URL para buscar o concurso atual
+                    const url = `${baseUrl}/${concurso}`;
+                    const response = await fetch(url);
 
-        try {
-            while (keepFetching) {
-                const url = `${baseUrl}/${concurso}`;
-                const response = await fetch(url);
-
-                if (!response.ok) {
-                    keepFetching = false;
-                    break;
-                }
-
-                const data = await response.json();
-                const dezenas = data.dezenas.map(Number); // Garante que todas as dezenas sejam números
-
-                // Cria um elemento de resultado
-                const resultDiv = document.createElement('div');
-                resultDiv.className = 'result';
-
-                const title = document.createElement('h3');
-                title.textContent = `Concurso: ${data.concurso} - Data: ${data.data}`;
-                resultDiv.appendChild(title);
-
-                // Cria um contêiner para o jogo
-                const gameContainer = document.createElement('div');
-                gameContainer.className = 'game-container';
-
-                // Cria a grade
-                const grid = document.createElement('div');
-                grid.className = 'grid';
-
-                for (let i = 1; i <= 60; i++) {
-                    const numberDiv = document.createElement('div');
-                    numberDiv.className = 'number';
-                    numberDiv.textContent = i.toString().padStart(2, '0');
-
-                    if (dezenas.includes(i)) {
-                        numberDiv.classList.add('highlight');
+                    // Interrompe o loop caso não haja mais concursos
+                    if (!response.ok) {
+                        keepFetching = false;
+                        break;
                     }
 
-                    grid.appendChild(numberDiv);
+                    const data = await response.json();
+                    const dezenas = data.dezenas.map(Number); // Garante que as dezenas sejam números
+                    const mesSorte = data.mesSorte; // Obtém o Mês da Sorte
 
-                    // Exibir dois resultados por coluna
-                    if (i % 2 === 0) {
-                        grid.appendChild(document.createElement('br'));
+                    // Cria o contêiner do resultado
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'result';
+
+                    // Adiciona o título do concurso
+                    const title = document.createElement('h3');
+                    title.textContent = `Concurso: ${data.concurso} - Data: ${data.data}`;
+                    resultDiv.appendChild(title);
+
+                    // Cria a grade de números
+                    const gameContainer = document.createElement('div');
+                    gameContainer.className = 'grid';
+
+                    // Adiciona os números de 1 a 31 à grade
+                    for (let i = 1; i <= 31; i++) {
+                        const numberDiv = document.createElement('div');
+                        numberDiv.className = 'number';
+                        numberDiv.textContent = i.toString().padStart(2, '0');
+
+                        // Destaca os números sorteados
+                        if (dezenas.includes(i)) {
+                            numberDiv.classList.add('highlight');
+                        }
+
+                        gameContainer.appendChild(numberDiv);
                     }
+
+                    // Adiciona a grade ao resultado
+                    resultDiv.appendChild(gameContainer);
+
+                    // Exibe o Mês da Sorte
+                    const mesSorteDiv = document.createElement('div');
+                    mesSorteDiv.textContent = `Mês da Sorte: ${mesSorte}`;
+                    mesSorteDiv.style.marginTop = '10px';
+                    mesSorteDiv.style.fontWeight = 'bold';
+                    resultDiv.appendChild(mesSorteDiv);
+
+                    // Adiciona o resultado ao contêiner de resultados
+                    resultsContainer.appendChild(resultDiv);
+
+                    concurso++;
                 }
-
-                // Adiciona a grade ao contêiner do jogo
-                gameContainer.appendChild(grid);
-
-                // Adiciona o contêiner do jogo ao resultado
-                resultDiv.appendChild(gameContainer);
-                resultsContainer.appendChild(resultDiv);
-
-                // Atualiza o progresso de carregamento
-                progressText.textContent = `Carregando Concurso ${concurso}`;
-
-                concurso++;
+            } catch (err) {
+                console.error('Erro ao buscar resultados:', err);
             }
-
-            // Exibe a mensagem de conclusão quando todos os concursos forem carregados
-            completionMessage.textContent = 'Todos os resultados foram carregados com sucesso!';
-        } catch (err) {
-            error.textContent = 'Erro ao buscar os resultados. Tente novamente mais tarde.';
-            console.error(err);
-        } finally {
-            loading.classList.remove('active');
         }
-    }
 
-    document.getElementById('loadResults').addEventListener('click', fetchResults);
+        // Adiciona um evento ao botão para carregar os resultados
+        document.getElementById('loadResults').addEventListener('click', fetchResults);
     </script>
 </body>
 </html>
