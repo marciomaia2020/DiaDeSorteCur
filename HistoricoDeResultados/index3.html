@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados da Mega-Sena</title>
+    <title>Resultados do Dia de Sorte</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #FFFFFF;
-            color: #2E8B57;
+            background-color: #ffffff; /* Fundo branco */
+            color: #2E8B57; /* Cor do texto */
         }
         h1 {
             text-align: center;
@@ -27,8 +27,8 @@
             border: 1px solid #4CAF50;
         }
         th {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #D1B513; /* Cor dourada no cabeçalho */
+            color: white; /* Texto branco no cabeçalho */
         }
         tr:nth-child(even) {
             background-color: #F9F9F9;
@@ -41,8 +41,8 @@
             margin: 0 auto;
         }
         .mega-sena-button {
-            background-color: #32CD32;
-            color: hsl(113, 94%, 31%);
+            background-color: #D1B513; /* Cor dourada no botão */
+            color: #ffffff; /* Texto branco no botão */
             border: none;
             padding: 10px 20px;
             cursor: pointer;
@@ -57,7 +57,7 @@
             text-align: center;
         }
         .mega-sena-button:hover {
-            background-color: #5ea30f;
+            background-color: #C39B11; /* Tom mais escuro para o hover */
         }
         .loading {
             text-align: center;
@@ -72,15 +72,15 @@
         .centralizado{
             text-align: center;
             font-size: 12px;
-            color: blue; 
+            color: #D1B513; /* Cor dourada para o texto */
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Resultados da Mega-Sena</h1>
-    <button class="mega-sena-button" onclick="fetchAllMegaSenaResults()">Carregar Resultados</button>
+    <h1>Resultados do Dia de Sorte</h1>
+    <button class="mega-sena-button" onclick="fetchAllDiaDeSorteResults()">Carregar Resultados</button>
 
     <div class="centralizado">
         <p>Resultados de <b><u>todos</u></b> os sorteios</p>
@@ -89,7 +89,7 @@
     <div id="loadingMessage" class="loading" style="display: none;">Carregando resultados...</div>
     <div id="completedMessage" class="completed" style="display: none;">Carregamento concluído!</div>
     
-    <table id="megaSenaResults">
+    <table id="diaDeSorteResults">
         <thead>
             <tr>
                 <th>Concurso</th>
@@ -99,18 +99,18 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Resultados da Mega-Sena serão inseridos aqui -->
+            <!-- Resultados do Dia de Sorte serão inseridos aqui -->
         </tbody>
     </table>
 </div>
 
 <script>
-   async function fetchAllMegaSenaResults() {
-    const baseUrl = 'https://loteriascaixa-api.herokuapp.com/api/megasena/'; // Base da API
+   async function fetchAllDiaDeSorteResults() {
+    const baseUrl = 'https://loteriascaixa-api.herokuapp.com/api/diadesorte/'; // URL para a API Dia de Sorte
     let results = [];
     const loadingMessage = document.getElementById('loadingMessage');
     const completedMessage = document.getElementById('completedMessage');
-    const tableBody = document.getElementById('megaSenaResults').getElementsByTagName('tbody')[0];
+    const tableBody = document.getElementById('diaDeSorteResults').getElementsByTagName('tbody')[0];
 
     // Mostra mensagem de carregamento
     loadingMessage.style.display = 'block';

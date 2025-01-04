@@ -2,12 +2,12 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Histórico de Resultados Mega-Sena - Visualização e Estatísticas</title>
+    <title>Histórico de Resultados Dia de Sorte - Visualização e Estatísticas</title>
     <style>
-    /* Todos os estilos anteriores mantidos */
+    /* Estilos ajustados conforme as cores desejadas */
     body {
         font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
+        background-color: #f0f0f0; /* Cor de fundo */
         padding: 20px;
         display: flex;
         flex-direction: column;
@@ -65,21 +65,10 @@
         position: relative;
     }
 
-    .quadrant1 { background-color: #d1e0ff; }
-    .quadrant2 { background-color: #ffcccc; }
-    .quadrant3 { background-color: #d1ffd1; }
-    .quadrant4 { background-color: #ffddcc; }
-    .quadrant5 { background-color: #ddccff; }
-    .quadrant6 { background-color: #ddddcc; }
-    .quadrant7 { background-color: #ccffff; }
-    .quadrant8 { background-color: #ffccff; }
-    .quadrant9 { background-color: #ccffe0; }
-    .quadrant10 { background-color: #e0ccff; }
-    .quadrant11 { background-color: #e0ffcc; }
-    .quadrant12 { background-color: #e0e0cc; }
-    .quadrant13 { background-color: #cce0e0; }
-    .quadrant14 { background-color: #ffcce0; }
-    .quadrant15 { background-color: #ccffe0; }
+    .quadrant1 { background-color: #D1B513; }
+    .quadrant2 { background-color: #FFDD55; }
+    .quadrant3 { background-color: #FFD700; }
+    .quadrant4 { background-color: #FFF7A5; }
 
     .highlight {
         background-color: #0d904f !important;
@@ -106,7 +95,7 @@
     }
 
     .stats-box h3 {
-        color: #0d904f;
+        color: #0D904F;
         margin-top: 0;
         margin-bottom: 15px;
         font-size: 18px;
@@ -151,7 +140,7 @@
 
     button {
         padding: 10px 20px;
-        background-color: #0d904f;
+        background-color: #b6a022; /* Cor de fundo do botão */
         color: white;
         border: none;
         border-radius: 4px;
@@ -161,7 +150,7 @@
     }
 
     button:hover {
-        background-color: #0a7340;
+        background-color: #D1B513;
     }
 
     button:disabled {
@@ -187,46 +176,65 @@
         height: 20px;
         margin-bottom: 10px;
     }
+    
     .centralizado {
-            text-align: center;
-            font-size: 12px;
-            color: blue;
-        }
+        text-align: center;
+        font-size: 12px;
+        color: blue;
+    }
+
+    /* Adicionando estilos adicionais para os quadrantes */
+    .quadrant1, .quadrant2, .quadrant3, .quadrant4 {
+        background-color: #D1B513;
+        font-weight: bold;
+        color: #fff;
+        text-align: center;
+    }
+
+    /* Outros estilos mantidos igual */
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Histórico de Resultados Mega-Sena</h2>
-
-        <div class="centralizado">
-            <p>Quadrantes <b><u>com estatísticas</u></b></p>
-        </div>
-         
-
-        <button id="loadResults">Carregar Resultados</button>
-
-        <div>
-            <progress id="progressBar" max="100" value="0"></progress>
-            <span id="progressLabel">0%</span>
-        </div>
-
-        <div id="statsSection" class="stats-container">
-            <!-- Estatísticas serão inseridas aqui -->
-        </div>
-        
-        <div id="loading" class="loading">Carregando resultados...</div>
-        <div id="error" class="error"></div>
-        <div id="results"></div>
-        <div id="feedback" class="feedback"></div>
+        <header class="header-section">
+            <h2>Histórico de Resultados Dia de Sorte</h2>
+            <div class="centralizado">
+                <p>Quadrantes <b><u>com estatísticas</u></b></p>
+            </div>
+        </header>
+    
+        <section class="controls-section">
+            <button id="loadResults" class="load-button">Carregar Resultados</button>
+            <div class="progress-container">
+                <progress id="progressBar" max="100" value="0"></progress>
+                <span id="progressLabel" class="progress-label">0%</span>
+            </div>
+        </section>
+    
+        <section class="results-container">
+            <div id="loading" class="loading">Carregando resultados...</div>
+            <div id="error" class="error"></div>
+            
+            <div id="statsSection" class="stats-container sticky">
+                <!-- Estatísticas serão inseridas aqui -->
+            </div>
+    
+            <div id="results" class="results-scroll"></div>
+        </section>
+    
+        <footer class="feedback-section">
+            <div id="feedback" class="feedback"></div>
+        </footer>
     </div>
 
-    <script>
+<script>
+// Script permanece o mesmo
     let currentConcurso = 1;
     let isLoading = false;
-    let maxConcurso = 2600; // Valor aproximado, será atualizado dinamicamente
+    let maxConcurso = 2600;
     let globalStats = {
-        quadrants: Array(15).fill(0),
-        numbers: Array(60).fill(0),
+        quadrants: Array(4).fill(0),
+        numbers: Array(31).fill(0),
         totalGames: 0,
         sequences: 0,
         oddEven: { odd: 0, even: 0 },
@@ -234,31 +242,29 @@
         totalNumbers: 0
     };
 
+    // Funções auxiliares mantidas iguais
     function getQuadrantClass(number) {
-        const row = Math.floor((number - 1) / 10);
-        const col = Math.floor((number - 1) % 10);
-        const quadrantRow = Math.floor(row / 2);
-        const quadrantCol = Math.floor(col / 2);
-        const quadrantNumber = quadrantRow * 5 + quadrantCol + 1;
-        return `quadrant${quadrantNumber}`;
+        if ([1, 2, 11, 12, 21, 22, 31].includes(number)) return 'quadrant1';
+        if ([3, 4, 5, 13, 14, 15, 23, 24, 25].includes(number)) return 'quadrant2';
+        if ([6, 7, 8, 16, 17, 18, 26, 27, 28].includes(number)) return 'quadrant3';
+        if ([9, 10, 19, 20, 29, 30].includes(number)) return 'quadrant4';
     }
 
     function getQuadrantForNumber(number) {
-        const row = Math.floor((number - 1) / 10);
-        const col = Math.floor((number - 1) % 10);
-        const quadrantRow = Math.floor(row / 2);
-        const quadrantCol = Math.floor(col / 2);
-        return quadrantRow * 5 + quadrantCol + 1;
+        if ([1, 2, 11, 12, 21, 22, 31].includes(number)) return 1;
+        if ([3, 4, 5, 13, 14, 15, 23, 24, 25].includes(number)) return 2;
+        if ([6, 7, 8, 16, 17, 18, 26, 27, 28].includes(number)) return 3;
+        if ([9, 10, 19, 20, 29, 30].includes(number)) return 4;
     }
 
     function updateStats(dezenas) {
         globalStats.totalGames++;
-        
+
         dezenas.forEach(num => {
             const quadrant = getQuadrantForNumber(num);
             globalStats.quadrants[quadrant - 1]++;
             globalStats.numbers[num - 1]++;
-            
+
             if (num % 2 === 0) {
                 globalStats.oddEven.even++;
             } else {
@@ -276,8 +282,6 @@
                 break;
             }
         }
-
-        renderStats();
     }
 
     function renderStats() {
@@ -346,135 +350,110 @@
         statsSection.appendChild(generalStats);
     }
 
+    function renderResults(dezenas, concurso) {
+        const resultsDiv = document.getElementById('results');
+
+        const resultEntry = document.createElement('div');
+        resultEntry.classList.add('result');
+        resultEntry.innerHTML = `
+            <h3>Concurso ${concurso}</h3>
+            <div class="quadrant-grid">
+                ${Array.from({length: 31}, (_, i) => i + 1).map(num => `
+                    <div class="number ${getQuadrantClass(num)} ${dezenas.includes(num) ? 'highlight' : ''}">
+                        ${num}
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        
+        resultsDiv.insertBefore(resultEntry, resultsDiv.firstChild);
+    }
+
     async function fetchSingleResult(concurso) {
-        const url = `https://loteriascaixa-api.herokuapp.com/api/megasena/${concurso}`;
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-            if (response.status === 404) {
-                return null;
-            }
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        return await response.json();
-    }
-
-    async function fetchAllResults() {
-        if (isLoading) return;
-        
-        const resultsContainer = document.getElementById('results');
-        const loading = document.getElementById('loading');
-        const error = document.getElementById('error');
-        const loadInitialButton = document.getElementById('loadResults');
-        const progressBar = document.getElementById('progressBar');
-        const progressLabel = document.getElementById('progressLabel');
-        
-        isLoading = true;
-        loading.classList.add('active');
-        loadInitialButton.disabled = true;
-        error.textContent = '';
-
-        let retryCount = 0;
-        const maxRetries = 3;
-        let consecutiveFailures = 0;
-        const maxConsecutiveFailures = 5;
-        
+        const url = `https://loteriascaixa-api.herokuapp.com/api/diadesorte/${concurso}`;
         try {
-            while (true) {
-                try {
-                    const data = await fetchSingleResult(currentConcurso);
-                    
-                    if (!data) {
-                        consecutiveFailures++;
-                        if (consecutiveFailures >= maxConsecutiveFailures) {
-                            maxConcurso = currentConcurso - maxConsecutiveFailures;
-                            break;
-                        }
-                        currentConcurso++;
-                        continue;
-                    }
-
-                    consecutiveFailures = 0;
-                    const dezenas = data.dezenas.map(Number);
-                    updateStats(dezenas);
-
-                    const resultDiv = document.createElement('div');
-                    resultDiv.className = 'result';
-
-                    const title = document.createElement('h3');
-                    title.textContent = `Concurso: ${data.concurso} - Data: ${data.data}`;
-                    resultDiv.appendChild(title);
-
-                    const gameContainer = document.createElement('div');
-                    gameContainer.className = 'game-container';
-
-                    const grid = document.createElement('div');
-                    grid.className = 'quadrant-grid';
-
-                    for (let i = 1; i <= 60; i++) {
-                        const numberDiv = document.createElement('div');
-                        numberDiv.className = `number ${getQuadrantClass(i)}`;
-                        numberDiv.textContent = i.toString().padStart(2, '0');
-
-                        if (dezenas.includes(i)) {
-                            numberDiv.classList.add('highlight');
-                        }
-
-                        grid.appendChild(numberDiv);
-                    }
-
-                    gameContainer.appendChild(grid);
-                    resultDiv.appendChild(gameContainer);
-                    resultsContainer.appendChild(resultDiv);
-
-                    // Atualiza a barra de progresso
-                    const progress = (currentConcurso / maxConcurso) * 100;
-                    progressBar.value = progress;
-                    progressLabel.textContent = `${Math.round(progress)}%`;
-
-                    currentConcurso++;
-                } catch (err) {console.error(`Erro ao buscar concurso ${currentConcurso}:`, err);
-                    retryCount++;
-                    if (retryCount >= maxRetries) {
-                        throw new Error('Número máximo de tentativas excedido');
-                    }
-                    await new Promise(resolve => setTimeout(resolve, 1000)); // Espera 1 segundo antes de tentar novamente
+            const response = await fetch(url);
+            if (!response.ok) {
+                if (response.status === 404) {
+                    console.error('Concurso não encontrado:', concurso);
+                    return null;
                 }
+                throw new Error('Erro ao buscar resultados');
             }
-            
-        } catch (err) {
-            error.textContent = 'Erro ao buscar os resultados. Tente novamente mais tarde.';
-            console.error(err);
-        } finally {
-            loading.classList.remove('active');
-            loadInitialButton.disabled = false;
-            isLoading = false;
-            progressBar.value = 100;
-            progressLabel.textContent = '100%';
+            const data = await response.json();
+            return data.numeros ? data.numeros.map(Number) : null;
+        } catch (error) {
+            console.error('Erro:', error);
+            return null;
         }
     }
 
-    async function startFetching() {
-        const resultsContainer = document.getElementById('results');
-        resultsContainer.innerHTML = '';
-        currentConcurso = 1;
+    async function loadResults() {
+        if (isLoading) return;
+        isLoading = true;
         
-        // Resetar estatísticas globais
-        globalStats = {
-            quadrants: Array(15).fill(0),
-            numbers: Array(60).fill(0),
-            totalGames: 0,
-            sequences: 0,
-            oddEven: { odd: 0, even: 0 },
-            sum: 0,
-            totalNumbers: 0
-        };
+        document.getElementById('loading').classList.add('active');
+        document.getElementById('error').innerHTML = '';
+        document.getElementById('feedback').innerHTML = '';
+        document.getElementById('results').innerHTML = '';
+
+        let successCount = 0;
+        let errorCount = 0;
+
+        const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+        for (let concurso = currentConcurso; concurso <= maxConcurso; concurso++) {
+            try {
+                const dezenas = await fetchSingleResult(concurso);
+                
+                if (dezenas) {
+                    updateStats(dezenas);
+                    renderResults(dezenas, concurso);
+                    renderStats();
+                    successCount++;
+                } else {
+                    errorCount++;
+                }
+
+                const progressPercentage = (concurso / maxConcurso) * 100;
+                document.getElementById('progressBar').value = progressPercentage;
+                document.getElementById('progressLabel').innerText = `${Math.round(progressPercentage)}%`;
+
+                // Adiciona um pequeno atraso para permitir a atualização da UI
+                await delay(100);
+            } catch (error) {
+                console.error(error);
+                errorCount++;
+            }
+        }
+
+        document.getElementById('loading').classList.remove('active');
+        document.getElementById('feedback').innerHTML = `
+            <p><strong>Carregamento concluído!</strong></p>
+            <p>Resultados carregados com sucesso: ${successCount}</p>
+            <p>Falhas: ${errorCount}</p>
+        `;
         
-        await fetchAllResults();
+        isLoading = false;
     }
 
-    document.getElementById('loadResults').addEventListener('click', startFetching);
-    </script>
+    document.getElementById('loadResults').addEventListener('click', () => {
+        if (!isLoading) {
+            currentConcurso = 1;
+            maxConcurso = 2600;
+            globalStats = {
+                quadrants: Array(4).fill(0),
+                numbers: Array(31).fill(0),
+                totalGames: 0,
+                sequences: 0,
+                oddEven: { odd: 0, even: 0 },
+                sum: 0,
+                totalNumbers: 0
+            };
+            loadResults();
+        }
+    });
+
+</script>
 </body>
 </html>

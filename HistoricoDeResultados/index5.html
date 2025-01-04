@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados da Mega-Sena</title>
+    <title>Resultados do Dia de Sorte</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #FFFFFF;
-            color: #2E8B57;
+            background-color: #ffffff; /* Alterado para branco */
+            color: #D1B513; /* Alterado para #D1B513 */
             line-height: 1.6;
             display: flex;
             flex-direction: column;
@@ -17,7 +17,7 @@
         }
         h1 {
             text-align: center;
-            color: #006400;
+            color: #D1B513; /* Alterado para #D1B513 */
         }
         table {
             width: 100%;
@@ -28,10 +28,10 @@
         th, td {
             padding: 10px;
             text-align: center;
-            border: 1px solid #4CAF50;
+            border: 1px solid #D1B513; /* Alterado para #D1B513 */
         }
         th {
-            background-color: #4CAF50;
+            background-color: #D1B513; /* Alterado para #D1B513 */
             color: white;
         }
         tr:nth-child(even) {
@@ -46,7 +46,7 @@
             padding: 20px;
         }
         .button {
-            background-color: #32CD32;
+            background-color: #D1B513; /* Alterado para #D1B513 */
             color: white;
             border: none;
             padding: 10px 20px;
@@ -60,7 +60,7 @@
             width: auto;
         }
         .button:hover {
-            background-color: #28a745;
+            background-color: #B19C23; /* Alterado para tom mais escuro de #D1B513 */
         }
         .filters-container {
             margin-top: 20px;
@@ -103,7 +103,7 @@
         }
 
         select {
-            border: 1px solid #4CAF50;
+            border: 1px solid #D1B513; /* Alterado para #D1B513 */
             border-radius: 5px;
             padding: 8px;
             font-size: 14px;
@@ -136,10 +136,10 @@
 <body>
 
 <div class="container">
-    <h1>Resultados da Mega-Sena</h1>
+    <h1>Resultados do Dia de Sorte</h1>
     
     <div class="centralizado">
-        <p>Resultados de todos os sorteios da Mega Sena - <b><ul>com filtros</ul></b></p>
+        <p>Resultados de todos os sorteios do Dia de Sorte - <b><ul>com filtros</ul></b></p>
     </div>
 
     <div class="filters-container">
@@ -156,14 +156,14 @@
 
         <button class="button" onclick="clearFilters()">Limpar Filtros</button>
 
-        <button class="button" onclick="fetchAllMegaSenaResults()">Carregar Resultados</button>
+        <button class="button" onclick="fetchAllDiaDeSorteResults()">Carregar Resultados</button>
 
     </div>
     
     <div id="loadingMessage" class="loading" style="display: none;">Carregando resultados...</div>
     <div id="completedMessage" class="completed" style="display: none;">Carregamento concluído!</div>
     
-    <table id="megaSenaResults">
+    <table id="diaDeSorteResults">
         <thead>
             <tr>
                 <th>Concurso</th>
@@ -172,117 +172,116 @@
             </tr>
         </thead>
         <tbody>
-           <!-- Resultados da Mega-Sena serão inseridos aqui -->
+           <!-- Resultados do Dia de Sorte serão inseridos aqui -->
         </tbody>
     </table>
 </div>
 
+<script>
+    let allResults = []; 
+    let originalResults = []; 
 
-    <script>
-        let allResults = []; 
-        let originalResults = []; 
+    async function fetchAllDiaDeSorteResults() {
+        const baseUrl = 'https://loteriascaixa-api.herokuapp.com/api/diadesorte';
+        const loadingMessage = document.getElementById('loadingMessage');
+        const completedMessage = document.getElementById('completedMessage');
+        const tableBody = document.getElementById('diaDeSorteResults').getElementsByTagName('tbody')[0];
 
-        async function fetchAllMegaSenaResults() {
-            const baseUrl = 'https://loteriascaixa-api.herokuapp.com/api/megasena';
-            const loadingMessage = document.getElementById('loadingMessage');
-            const completedMessage = document.getElementById('completedMessage');
-            const tableBody = document.getElementById('megaSenaResults').getElementsByTagName('tbody')[0];
+        loadingMessage.style.display = 'block';
+        completedMessage.style.display = 'none';
+        tableBody.innerHTML = '';
+        allResults = [];
 
-            loadingMessage.style.display = 'block';
-            completedMessage.style.display = 'none';
-            tableBody.innerHTML = '';
-            allResults = [];
+        try {
+            const response = await fetch(baseUrl);
+            if (!response.ok) throw new Error('Erro ao acessar a API.');
 
-            try {
-                const response = await fetch(baseUrl);
-                if (!response.ok) throw new Error('Erro ao acessar a API.');
+            const data = await response.json();
 
-                const data = await response.json();
+            if (Array.isArray(data) && data.length > 0 && Array.isArray(data[0].dezenas)) {
+                allResults = data.map(item => ({
+                    concurso: item.concurso,
+                    data: item.data,
+                    dezenas: item.dezenas, // Dezenas sorteadas
+                    dezenasOrdemSorteio: item.dezenasOrdemSorteio // Dezenas na ordem do sorteio
+                }));
 
-                if (Array.isArray(data) && data.length > 0 && Array.isArray(data[0].dezenas)) {
-                    allResults = data.map(item => ({
-                        concurso: item.concurso,
-                        data: item.data,
-                        dezenas: item.dezenas, // Dezenas ordenadas de forma crescente (original)
-                        dezenasOrdemSorteio: item.dezenasOrdemSorteio // Dezenas na ordem do sorteio
-                    }));
-
-                    originalResults = JSON.parse(JSON.stringify(allResults));
-                } else {
-                    throw new Error('Formato de dados inválido ou propriedade "dezenas" não encontrada.');
-                }
-
-                renderResults(allResults);
-            } catch (error) {
-                console.error(error);
-                alert('Erro ao buscar os resultados. Tente novamente.');
-            } finally {
-                loadingMessage.style.display = 'none';
-                completedMessage.style.display = 'block';
-            }
-        }
-
-        function applyFilters() {
-            const filterDate = document.getElementById('filterDate').value.trim();
-            const filterYear = document.getElementById('filterYear').value.trim();
-            const filterConcurso = document.getElementById('filterConcurso').value.trim();
-            const filterOrder = document.getElementById('filterOrder').value;
-
-            let filteredResults = originalResults.filter(result => {
-                const [day, month, year] = result.data.split('/');
-                const formattedDate = `${day}/${month}`;
-
-                return (
-                    (!filterDate || filterDate === formattedDate) &&
-                    (!filterYear || filterYear === year) &&
-                    (!filterConcurso || parseInt(filterConcurso) === result.concurso)
-                );
-            });
-
-            if (filterOrder === "2") {
-                // Ordenar dezenas de forma decrescente
-                filteredResults.forEach(result => {
-                    result.dezenas = [...result.dezenas].sort((a, b) => b - a);
-                });
-            } else if (filterOrder === "3") {
-                // Exibir dezenas na ordem do sorteio
-                filteredResults.forEach(result => {
-                    result.dezenas = result.dezenasOrdemSorteio;
-                });
+                originalResults = JSON.parse(JSON.stringify(allResults));
             } else {
-                // Voltar à ordem original (crescente)
-                filteredResults = JSON.parse(JSON.stringify(originalResults));
+                throw new Error('Formato de dados inválido ou propriedade "dezenas" não encontrada.');
             }
 
-            renderResults(filteredResults);
+            renderResults(allResults);
+        } catch (error) {
+            console.error(error);
+            alert('Erro ao buscar os resultados. Tente novamente.');
+        } finally {
+            loadingMessage.style.display = 'none';
+            completedMessage.style.display = 'block';
         }
+    }
 
-        function renderResults(results) {
-            const tableBody = document.getElementById('megaSenaResults').getElementsByTagName('tbody')[0];
-            tableBody.innerHTML = '';
+    function applyFilters() {
+        const filterDate = document.getElementById('filterDate').value.trim();
+        const filterYear = document.getElementById('filterYear').value.trim();
+        const filterConcurso = document.getElementById('filterConcurso').value.trim();
+        const filterOrder = document.getElementById('filterOrder').value;
 
-            if (results.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="3" class="no-results">Nenhum resultado encontrado.</td></tr>';
-                return;
-            }
+        let filteredResults = originalResults.filter(result => {
+            const [day, month, year] = result.data.split('/');
+            const formattedDate = `${day}/${month}`;
 
-            results.forEach(result => {
-                const row = tableBody.insertRow();
-                row.innerHTML = `
-                    <td>${result.concurso}</td>
-                    <td>${result.data}</td>
-                    <td>${result.dezenas.join(' - ')}</td>`;
+            return (
+                (!filterDate || filterDate === formattedDate) &&
+                (!filterYear || filterYear === year) &&
+                (!filterConcurso || parseInt(filterConcurso) === result.concurso)
+            );
+        });
+
+        if (filterOrder === "2") {
+            // Ordenar dezenas de forma decrescente
+            filteredResults.forEach(result => {
+                result.dezenas = [...result.dezenas].sort((a, b) => b - a);
             });
+        } else if (filterOrder === "3") {
+            // Exibir dezenas na ordem do sorteio
+            filteredResults.forEach(result => {
+                result.dezenas = result.dezenasOrdemSorteio;
+            });
+        } else {
+            // Voltar à ordem original (crescente)
+            filteredResults = JSON.parse(JSON.stringify(originalResults));
         }
 
-        function clearFilters() {
-            document.getElementById('filterDate').value = '';
-            document.getElementById('filterYear').value = '';
-            document.getElementById('filterConcurso').value = '';
-            document.getElementById('filterOrder').value = '0';
-            renderResults(originalResults);
-        }
-    </script>
+        renderResults(filteredResults);
+    }
 
-    </body>
+    function renderResults(results) {
+        const tableBody = document.getElementById('diaDeSorteResults').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = '';
+
+        if (results.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="3" class="no-results">Nenhum resultado encontrado.</td></tr>';
+            return;
+        }
+
+        results.forEach(result => {
+            const row = tableBody.insertRow();
+            row.innerHTML = `
+                <td>${result.concurso}</td>
+                <td>${result.data}</td>
+                <td>${result.dezenas.join(' - ')}</td>`;
+        });
+    }
+
+    function clearFilters() {
+        document.getElementById('filterDate').value = '';
+        document.getElementById('filterYear').value = '';
+        document.getElementById('filterConcurso').value = '';
+        document.getElementById('filterOrder').value = '0';
+        renderResults(originalResults);
+    }
+</script>
+
+</body>
 </html>
